@@ -11,6 +11,11 @@ class Sidebar extends React.Component {
 
     return (
       <ul className="sidebar">
+        <li>
+          {files.map((file) =>
+            <SidebarItem className="sidebar__item"></SidebarItem>
+          )}
+        </li>
       </ul>
     );
   }

@@ -9,11 +9,28 @@ const fileStore = require('../stores/fileStore');
 const actions = require('../actions');
 
 class App extends React.Component {
+  constructor(props){
+    super(props);
+
+    let files = fileStore.getState();
+
+    this.state = {
+      files: files,
+      selectedFileIndex: 0
+    }
+  }
+
   componentDidMount() {
     // TODO
+    this.removeListener = fileStore.addListener((state) => {
+      this.setState({ files: state});
+    });
+
+    const files = fileStore.getState();
   }
   componentWillUnmount() {
     // TODO
+    this.removeListener();
   }
   handleChange(ev) {
     const { selectedFileIndex } = this.state;
