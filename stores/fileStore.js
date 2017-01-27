@@ -1,9 +1,10 @@
 'use strict';
 import pry from 'pryjs'
 
-const Store = require('./Store');
+const Store = require('../stores/Store');
 
-class FileStore extends Store{
+class FileStore extends Store {
+
   constructor(props){
     super(props);
     this.state = [ '' ];
@@ -20,14 +21,18 @@ class FileStore extends Store{
   }
 
   addFile(){
-    var newFiles = Object.assign([''], this.getState);
+    var newFiles = Object.assign(['']);
     this.state = [...newFiles, '']
   }
 
   removeFile(index){
-    if (this.state != [ '' ]){
-      this.state.splice(index, 1)
+
+    this.state = this.getState();
+    if(this.state.length === 1){
+      this.state = ['']
     }
+
+    this.state = this.state.splice(index, 1)
   }
 }
 

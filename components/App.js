@@ -18,6 +18,10 @@ class App extends React.Component {
       files: files,
       selectedFileIndex: 0
     }
+    this.handleUpdate = actions.updateFile.bind(this);
+    this.handleAdd = actions.addFile.bind(this);
+    this.handleRemove = actions.removeFile.bind(this);
+
   }
 
   componentDidMount() {
