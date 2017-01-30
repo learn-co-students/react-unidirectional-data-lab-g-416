@@ -3,13 +3,22 @@
 const React = require('react');
 const Toolbar = require('./Toolbar');
 
-class FileView extends React.Component {
-  render() {
-    return (
-      <div>
-      </div>
-    );
-  }
-}
+const FileView = ({
+  //args
+  file,
+  onChange,
+  onAdd,
+  onRemove
+}) => (
+  <div className="file-view">
+      <Toolbar onAdd={onAdd} onRemove={onRemove}/>
+      <textarea 
+        className='file-view__text' 
+        value={file} 
+        onChange={onChange} 
+        placeholder="Enter some text"
+        />
+  </div>
+);
 
 module.exports = FileView;

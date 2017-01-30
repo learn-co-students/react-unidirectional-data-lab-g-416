@@ -1,5 +1,7 @@
 'use strict';
 
+import pry from 'pryjs'
+
 const fileStore = require('../stores/fileStore');
 const FileStore = fileStore.constructor;
 const Store = require('../stores/Store');
