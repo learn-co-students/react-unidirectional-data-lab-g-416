@@ -18,7 +18,7 @@ class Store {
   setState(state){
     this.state = state;
     for (const listener of this.listeners){
-      listener(state)
+      listener.call(this, state);
     }
   }
 

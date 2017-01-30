@@ -3,28 +3,19 @@
 const React = require('react');
 const classNames = require('classnames');
 
-class SidebarItem extends React.Component {
-
-  constructor(props){
-    super(props);
-
-    this.state = {
-      isSelected: false
-    }
-  }
-  static getTitle (file) {
-    // Find first non-empty line and use as title.
-    return file.split('\n').find(line => line.length);
-  }
-  render() {
-    return (
-      <li className="sidebar__item">
-        <a className="sidebar__link">
-          {this.getTitle}
-        </a>
-      </li>
-    );
-  }
+const getTitle = (file) => {
+  // Find first non-empty line and use as title.
+  return file.split('\n').find(line => line.length);
 }
+
+const SidebarItem = ({ file = '', isSelected, onClick }) => (
+  <li className={classNames('sidebar__item', {
+      'sidebar__item--selected': isSelected    
+  })}>
+    <a href='#' className="sidebar__link" onClick={onClick}>
+      { getTitle(file) || <em>Untitled</em>}
+    </a>
+  </li>
+);
 
 module.exports = SidebarItem;
