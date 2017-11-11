@@ -14,7 +14,7 @@ class App extends React.Component {
     this.state = {
       files: fileStore.getState(),
       selectedFileIndex: 0
-    }
+    };
   }
 
   componentDidMount() {
@@ -28,17 +28,21 @@ class App extends React.Component {
   handleChange(ev) {
     const { selectedFileIndex } = this.state;
     // TODO Dispatch action
+    actions.updateFile(this.state.selectedFileIndex, ev.target.value)
   }
   handleSelect(selectedFileIndex) {
     // TODO Update selectedFileIndex state
+    this.setState(selectedFileIndex);
   }
   handleAdd(ev) {
     ev.preventDefault();
     // TODO Dispatch action
+    actions.addFile();
   }
   handleRemove(ev) {
     ev.preventDefault()
     // TODO Dispatch action
+    actions.removeFile(this.state.selectedFileIndex)
   }
   render() {
     const { files, selectedFileIndex } = this.state;
