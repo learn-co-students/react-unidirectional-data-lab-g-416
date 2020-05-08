@@ -1,55 +1,78 @@
-'use strict'
+"use strict"
 
-const React = require('react');
-const Sidebar = require('./Sidebar');
-const FileView = require('./FileView');
-const Toolbar = require('./Toolbar');
-
-const fileStore = require('../stores/fileStore');
-const actions = require('../actions');
+const React = require("react");
+const fileStore = require("../stores/fileStore");
+const actions = require("../actions");
+const Sidebar = require("./Sidebar");
+const FileView = require("./FileView");
+const Toolbar = require("./Toolbar");
 
 class App extends React.Component {
-  componentDidMount() {
-    // TODO
-  }
-  componentWillUnmount() {
-    // TODO
-  }
-  handleChange(ev) {
-    const { selectedFileIndex } = this.state;
-    // TODO Dispatch action
-  }
-  handleSelect(selectedFileIndex) {
-    // TODO Update selectedFileIndex state
-  }
-  handleAdd(ev) {
-    ev.preventDefault();
-    // TODO Dispatch action
-  }
-  handleRemove(ev) {
-    ev.preventDefault()
-    // TODO Dispatch action
-  }
-  render() {
-    const { files, selectedFileIndex } = this.state;
-    const file = files[selectedFileIndex];
 
-    return (
-      <div className="app">
-        <Sidebar
-          files={files}
-          selectedFileIndex={selectedFileIndex}
-          onSelect={this.handleSelect}
-        />
-        <FileView
-          file={file}
-          onChange={this.handleChange}
-          onAdd={this.handleAdd}
-          onRemove={this.handleRemove}
-        />
-      </div>
-    );
-  }
+	constructor() {
+		super();
+		this.state = {
+			files: fileStore.getState(),
+			selectedFileIndex: 0
+		};
+		this.handleChange = this.handleChange.bind(this);
+		this.handleSelect = this.handleSelect.bind(this);
+		this.handleAdd = this.handleAdd.bind(this);
+		this.handleRemove = this.handleRemove.bind(this);
+	}
+
+	handleChange(ev) {
+		const {selectedFileIndex} = this.state
+
+		actions.updateFile(selectedFileIndex, ev.target.value)
+	}
+
+	handleSelect(selectedFileIndex) {
+		this.setState({selectedFileIndex})
+	}
+
+	handleAdd(ev) {
+		ev.preventDefault()
+
+		actions.addFile()
+	}
+
+	handleRemove(ev) {
+		const {selectedFileIndex} = this.state;
+		const newIndex = selectedFileIndex > 0 ? selectedFileIndex - 1 : 0;
+
+		ev.preventDefault();
+		actions.removeFile(selectedFileIndex);
+		this.setState({selectedFileIndex: newIndex});
+	}
+
+	componentDidMount() {
+		this.removeListener = fileStore.addListener(files => this.setState({files}))
+	}
+
+	componentWillUnmount() {
+		this.removeListener()
+	}
+
+	render() {
+		const {files, selectedFileIndex} = this.state;
+		const file = files[selectedFileIndex];
+
+		return (
+			<div className="app">
+				<Sidebar
+					files={files}
+					selectedFileIndex={selectedFileIndex}
+					onSelect={this.handleSelect} />
+				<FileView
+					file={file}
+					onChange={this.handleChange}
+					onAdd={this.handleAdd}
+					onRemove={this.handleRemove} />
+			</div>
+		)
+	}
+
 }
 
-module.exports = App;
+module.exports = App
