@@ -1,15 +1,19 @@
-'use strict'
+"use strict"
 
-const React = require('react');
-const Toolbar = require('./Toolbar');
+const React = require("react");
+const Toolbar = require("./Toolbar");
 
 class FileView extends React.Component {
-  render() {
-    return (
-      <div>
-      </div>
-    );
-  }
+	render() {
+		const {file, onChange, onAdd, onRemove} = this.props
+
+		return (
+			<div className="file-view">
+				<Toolbar onAdd={onAdd} onRemove={onRemove} />
+				<textarea className="file-view__text" value={file} onChange={onChange} />
+			</div>
+		)
+	}
 }
 
-module.exports = FileView;
+module.exports = FileView
